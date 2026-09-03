@@ -1,3 +1,4 @@
+import './style.css'
 import { marketData } from "./market-data";
 
 const filtredMarketData = marketData.filter((market) => {
@@ -9,7 +10,7 @@ document.querySelector("#app").innerHTML = `
     <ul>
         ${filtredMarketData
           .map((market) => {
-            return `<li><img width="30px" src="${market.image}" alt="${market.symbol}" /> ${market.symbol}</li>`;
+            return `<li><img width="30px" src="${market.image}" alt="${market.symbol}" /> ${market.symbol.toUpperCase()} - $${market.current_price}</li>`;
           })
           .join("")}
     </ul>
