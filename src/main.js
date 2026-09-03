@@ -1,18 +1,13 @@
 import "./style.css";
-import { marketData } from "./market-data";
 
-let filtredMarketData = marketData.filter((market) => {
-  return market.total_volume > 1_000_000;
-});
+let marketData = [];
+let filtredMarketData = [];
 
-document.querySelector("#app").innerHTML = `
-<h1>Market data (${filtredMarketData.length}/${marketData.length})</h1>
-<input type="text" placeholder="BTC, ETH, USDC..." />
-<button>filter</button>
-<section>
-  <ul></ul>
-</section>
-`;
+const getMarketData = async () => {
+  return fetch(
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",
+  ).then((response) => response.json());
+};
 
 const display = () => {
   document.querySelector("ul").innerHTML = filtredMarketData
@@ -22,17 +17,39 @@ const display = () => {
     .join("");
 };
 
-display();
-
-// gestion du click sur le button de filtre
-document.querySelector("button").addEventListener("click", () => {
-  // récupérer la valeur de l'input
-  const value = document.querySelector("input").value;
-  // filtrer la liste de donnée de marché
+const runApp = async () => {
+  // step 1 : get data from API
+  const marketData = await getMarketData();
+  // step 2 filtrer les donnée avec la logic metier choisi...
   filtredMarketData = marketData.filter((market) => {
-    return market.symbol.toLowerCase().includes(value.toLocaleLowerCase());
+    return market.total_volume > 1_000_000;
   });
-  // afficher la liste dans le html
-  // reset la valeur de l'input
+  // step 3 construire le html de base
+  document.querySelector("#app").innerHTML = `
+    <h1>Market data (${filtredMarketData.length}/${marketData.length})</h1>
+    <input type="text" placeholder="BTC, ETH, USDC..." />
+    <button>filter</button>
+    <section>
+      <ul></ul>
+    </section>
+  `;
+  // step 4 display real data
   display();
-});
+  // step 5 event management
+  // gestion du click sur le button de filtre
+  document.querySelector("button").addEventListener("click", () => {
+    // récupérer la valeur de l'input
+    const value = document.querySelector("input").value;
+    // filtrer la liste de donnée de marché
+    filtredMarketData = marketData.filter((market) => {
+      return market.symbol.toLowerCase().includes(value.toLocaleLowerCase());
+    });
+    // afficher la liste dans le html
+    // reset la valeur de l'input
+    display();
+  });
+};
+
+runApp();
+
+
