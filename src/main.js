@@ -4,7 +4,7 @@ const filtredMarketData = marketData.filter((market) => {
   return market.total_volume > 1_000_000;
 });
 document.querySelector("#app").innerHTML = `
-  <h1>Market data (${filtredMarketData.length})</h1>
+  <h1>Market data (${filtredMarketData.length}/${marketData.length})</h1>
   <section>
     <ul>
         ${filtredMarketData
