@@ -33,6 +33,15 @@ const runApp = async () => {
       <ul></ul>
     </section>
   `;
+  // event management with parent element
+  document.querySelector('ul').addEventListener('click', (event) => {
+    const target = event.target;
+    const liElement = target.closest('li');
+    const imgElement = liElement.querySelector('img');
+    const altAttribute = imgElement.getAttribute('alt');
+    const symbol = altAttribute.toUpperCase();
+    alert(symbol);
+  });
   // step 4 display real data
   display();
   // step 5 event management
@@ -51,5 +60,3 @@ const runApp = async () => {
 };
 
 runApp();
-
-
