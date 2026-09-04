@@ -20,9 +20,9 @@ const displayListItems = () => {
 
 const displayListPage = () => {
   document.querySelector("#app").innerHTML = `
-    <h1>Market data (${filtredMarketData.length}/${marketData.length})</h1>
+    <h1 class="text-3xl font-bold underline">Market data (${filtredMarketData.length}/${marketData.length})</h1>
     <input type="text" placeholder="BTC, ETH, USDC..." />
-    <button>filter</button>
+    <button class="rounded-2xl bg-blue-500 text-white pt-2 pb-2 pl-4 pr-4 uppercase cursor-pointer hover:bg-blue-300 dark:bg-amber-500 ">filter</button>
     <section>
       <ul></ul>
     </section>
